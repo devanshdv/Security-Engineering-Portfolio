@@ -1,0 +1,33 @@
+<#
+.SYNOPSIS
+This PowerShell script ensures the Secondary Logon service is disabled on Windows 11.
+
+.NOTES
+Author: Devansh Sharma
+LinkedIn: linkedin.com/in/devansharma20
+GitHub: github.com/devanshdv
+Date Created: 11-02-2026(MM-DD-YYYY)
+STIG-ID: WN11-00-000175
+#>
+
+$serviceName = "seclogon"
+
+Write-Host "Checking status of the Secondary Logon service..."
+$service = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
+
+if ($service) {
+    # Stop the service if it is running
+    if ($service.Status -eq 'Running') {
+        Write-Host "Service is running. Stopping..."
+        Stop-Service -Name $serviceName -Force
+    }
+    
+    # Disable the service startup
+    Write-Host "Disabling service startup type..."
+    Set-Service -Name $serviceName -StartupType Disabled
+    
+    $finalCheck = (Get-Service -Name $serviceName).StartType
+    Write-Host "Verification complete: Service startup type is now set to $finalCheck."
+} else {
+    Write-Host "Service '$serviceName' was not found on this system."
+}
