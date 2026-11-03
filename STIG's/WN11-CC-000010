@@ -1,0 +1,29 @@
+<#
+.SYNOPSIS
+This PowerShell script ensures the display of slide shows on the lock screen is disabled.
+
+.NOTES
+Author: Devansh Sharma
+LinkedIn: linkedin.com/in/devansharma20
+GitHub: github.com/devanshdv
+Date Created: 11-02-2026(MM-DD-YYYY)
+STIG-ID: WN11-CC-000010
+#>
+
+$registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization"
+$valueName = "NoLockScreenSlideshow"
+$targetValue = 1
+
+if (-not (Test-Path $registryPath)) { New-Item -Path $registryPath -Force | Out-Null }
+$checkValue = Get-ItemProperty -Path $registryPath -Name $valueName -ErrorAction SilentlyContinue
+
+if ($null -ne $checkValue) {
+    Write-Host "'$valueName' exists. Modifying value to $targetValue."
+    Set-ItemProperty -Path $registryPath -Name $valueName -Value $targetValue
+} else {
+    Write-Host "'$valueName' does not exist. Creating and setting value to $targetValue."
+    New-ItemProperty -Path $registryPath -Name $valueName -Value $targetValue -PropertyType DWORD
+}
+
+$finalCheck = (Get-ItemProperty -Path $registryPath -Name $valueName).$valueName
+Write-Host "Verification complete: $valueName is now set to $finalCheck."
