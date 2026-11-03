@@ -40,7 +40,8 @@ Initial investigation into the operator's directives resulted in query timeouts.
 ```kql
 find withsource=TableName where * contains "user_input"
 ```
-![image](https://placehold.co/600x150?text=Schema+Search+Results)
+**<img width="1781" height="797" alt="image" src="https://github.com/user-attachments/assets/f0b6d84e-328c-40ff-888d-8c7f3304a5a9" />
+**
 
 📌 *Target Table:* `LLMAgentLogs_CL`
 
@@ -53,7 +54,8 @@ LLMAgentLogs_CL
 | project TimeGenerated, user_input
 | sort by TimeGenerated asc
 ```
-![image](https://placehold.co/600x150?text=Agent+Logs+Filtered)
+<img width="1742" height="833" alt="image" src="https://github.com/user-attachments/assets/37a5a860-780f-4a76-9361-8fa1323e9b74" />
+
 
 📌 *Gate Count:* `4 decision gates`
 
@@ -65,7 +67,8 @@ Syslog
 | summarize count() by bin(TimeGenerated, 3s)
 | top 5 by count_ desc
 ```
-![image](https://placehold.co/600x150?text=Syslog+Request+Bursts)
+<img width="1732" height="692" alt="image" src="https://github.com/user-attachments/assets/b565cbd0-cb85-4fed-af8e-f897321e456b" />
+
 
 📌 *Classification:* `a person who set a machine going`
 
